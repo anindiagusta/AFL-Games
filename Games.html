@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Australian Football League Games</title>
+    <link rel="stylesheet" href="display.css" />
+  </head>
+  <body>
+    <header class="hero">
+      <nav class="navbar">
+        <ul class="menu">
+          <li><a href="/Teams.html">TEAMS</a></li>
+          <li><a href="/Games.html">GAMES</a></li>
+          <li><a href="/Sources.html">SOURCES</a></li>
+          <li><a href="/News.html">NEWS</a></li>
+        </ul>
+        <button class="menu-toggle">☰</button>
+      </nav>
+      <div class="hero-text">
+        <h4>Football League</h4>
+        <h1>Australian Football League Games</h1>
+      </div>
+    </header>
+
+    <main>
+      <section class="games" id="gamesContainer">
+        <p id="loadingMessage">Loading games...</p>
+      </section>
+
+      <!-- Tombol Navigasi Pagination -->
+      <div class="pagination">
+        <button id="prevBtn" onclick="prevPage()" disabled>Previous</button>
+        <span id="pageInfo">Page 1</span>
+        <button id="nextBtn" onclick="nextPage()">Next</button>
+      </div>
+    </main>
+
+    <script>
+      let allGames = []; // Menyimpan semua data game
+      let currentPage = 1;
+      const gamesPerPage = 10; // Membatasi ke 10 game per halaman
+
+      // Mengambil data game dari API
+      async function fetchGames() {
+        try {
+          const response = await fetch('https://api.squiggle.com.au/?q=games');
+          const data = await response.json();
+          allGames = data.games;
+
+          if (allGames.length === 0) {
+            document.getElementById('gamesContainer').innerHTML = '<p>Tidak ada data pertandingan.</p>';
+            return;
+          }
+
+          document.getElementById('loadingMessage').style.display = 'none';
+          showGames();
+        } catch (error) {
+          console.error('Error fetching games:', error);
+          document.getElementById('gamesContainer').innerHTML =
+            `<p style="color: red;">Gagal memuat data pertandingan. Silakan coba lagi nanti.</p>`;
+        }
+      }
+
+      function showGames() {
+        const container = document.getElementById('gamesContainer');
+        container.innerHTML = '';
+
+        const start = (currentPage - 1) * gamesPerPage;
+        const end = start + gamesPerPage;
+        const gamesToShow = allGames.slice(start, end);
+
+        gamesToShow.forEach(game => {
+          const div = document.createElement('div');
+          div.classList.add('game-item');
+          div.innerHTML = `
+            <div class="match-info">
+              <h3>${game.hteam} vs ${game.ateam}</h3>
+              <p>Venue: ${game.venue || "Tidak tersedia"}</p>
+              <p>Tanggal: ${game.date ? new Date(game.date).toLocaleDateString() : "Tidak tersedia"}</p>
+              <p>Skor: ${game.hscore ?? "-"} - ${game.ascore ?? "-"}</p>
+              <p>Pemenang: ${game.winner || "Belum ditentukan"}</p>
+            </div>
+          `;
+          container.appendChild(div);
+        });
+
+        updatePagination();
+      }
+
+      function updatePagination() {
+        document.getElementById('pageInfo').innerText = `Page ${currentPage} of ${Math.ceil(allGames.length / gamesPerPage)}`;
+        document.getElementById('prevBtn').disabled = currentPage === 1;
+        document.getElementById('nextBtn').disabled = currentPage * gamesPerPage >= allGames.length;
+      }
+
+      function nextPage() {
+        if (currentPage * gamesPerPage < allGames.length) {
+          currentPage++;
+          showGames();
+        }
+      }
+
+      function prevPage() {
+        if (currentPage > 1) {
+          currentPage--;
+          showGames();
+        }
+      }
+
+      fetchGames(); // Panggil fungsi saat halaman dimuat
+    </script>
+  </body>
+</html>

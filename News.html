@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Berita Olahraga - CNN Indonesia</title>
+    <link rel="stylesheet" href="display.css"> <!-- Tambahkan file CSS untuk styling -->
+</head>
+<body>
+    <header class="hero">
+        <nav class="navbar">
+            <ul class="menu">
+                <li><a href="/Teams.html">TEAMS</a></li>
+                <li><a href="/Games.html">GAMES</a></li>
+                <li><a href="/Sources.html">SOURCES</a></li>
+                <li><a href="/News.html">NEWS</a></li>
+            </ul>
+            <button class="menu-toggle">☰</button>
+        </nav>
+        <div class="hero-text">
+            <h4>Sports News</h4>
+            <h1>CNN Indonesia - Berita Olahraga</h1>
+        </div>
+    </header>
+
+    <main>
+        <section class="news" id="newsContainer"></section>
+
+        <!-- Tombol Navigasi Pagination -->
+        <div class="pagination">
+            <button id="prevBtn" onclick="prevPage()" disabled>Previous</button>
+            <span id="pageInfo">Page 1</span>
+            <button id="nextBtn" onclick="nextPage()">Next</button>
+        </div>
+    </main>
+
+    <script>
+        let allNews = []; // Menyimpan semua berita
+        let currentPage = 1;
+        const newsPerPage = 8;
+
+        // Fetch data dari API
+        fetch('https://api-berita-indonesia.vercel.app/cnn/olahraga')
+            .then(response => response.json())
+            .then(data => {
+                allNews = data.data.posts; // Simpan semua berita
+                showNews(); // Tampilkan halaman pertama
+            })
+            .catch(error => {
+                console.error('Error fetching news:', error);
+                document.getElementById('newsContainer').innerHTML = 
+                    `<p style="color: red;">Gagal memuat data berita.</p>`;
+            });
+
+        function showNews() {
+            const container = document.getElementById('newsContainer');
+            container.innerHTML = '';
+
+            const start = (currentPage - 1) * newsPerPage;
+            const end = start + newsPerPage;
+            const newsToShow = allNews.slice(start, end);
+
+            newsToShow.forEach(news => {
+                const div = document.createElement('div');
+                div.classList.add('news-item');
+                div.innerHTML = `
+                    <a href="${news.link}" target="_blank" class="news-link">
+                        <img src="${news.thumbnail}" alt="${news.title}" class="news-image">
+                        <div class="news-info">
+                            <h3>${news.title}</h3>
+                            <p>${news.description}</p>
+                            <span class="news-date">${new Date(news.pubDate).toLocaleDateString()}</span>
+                        </div>
+                    </a>
+                `;
+                container.appendChild(div);
+            });
+
+            updatePagination();
+        }
+
+        function updatePagination() {
+            document.getElementById('pageInfo').innerText = `Page ${currentPage}`;
+            document.getElementById('prevBtn').disabled = currentPage === 1;
+            document.getElementById('nextBtn').disabled = currentPage * newsPerPage >= allNews.length;
+        }
+
+        function nextPage() {
+            if (currentPage * newsPerPage < allNews.length) {
+                currentPage++;
+                showNews();
+            }
+        }
+
+        function prevPage() {
+            if (currentPage > 1) {
+                currentPage--;
+                showNews();
+            }
+        }
+    </script>
+</body>
+</html>

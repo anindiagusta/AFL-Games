@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Australian Football League Sources</title>
+    <link rel="stylesheet" href="display.css" />
+  </head>
+  <body>
+    <header class="hero">
+      <nav class="navbar">
+        <ul class="menu">
+          <li><a href="/Teams.html">TEAMS</a></li>
+          <li><a href="/Games.html">GAMES</a></li>
+          <li><a href="/Sources.html">SOURCES</a></li>
+          <li><a href="/News.html">NEWS</a></li>
+        </ul>
+        <button class="menu-toggle">☰</button>
+      </nav>
+      <div class="hero-text">
+        <h4>Football League</h4>
+        <h1>Australian Football League Sources</h1>
+      </div>
+    </header>
+
+    <main>
+      <section class="sources" id="sourcesContainer"></section>
+    </main>
+
+    <script>
+      fetch('https://api.squiggle.com.au/?q=sources')
+        .then(response => response.json())
+        .then(data => {
+          const container = document.getElementById('sourcesContainer');
+          if (!container) {
+            console.error('Element sourcesContainer tidak ditemukan.');
+            return;
+          }
+          data.sources.forEach(source => {
+            const div = document.createElement('div');
+            div.classList.add('source-item');
+            div.innerHTML = `
+              <div class="source-info">
+                <img src="https://squiggle.com.au${source.icon}" alt="${source.name} Logo">
+                <a href="${source.url}" target="_blank">
+                  <h3>${source.name}</h3>
+                </a>
+              </div>
+            `;
+            container.appendChild(div);
+          });
+        })
+        .catch(error => {
+          console.error('Error fetching sources:', error);
+          document.getElementById('sourcesContainer').innerHTML = 
+            `<p style="color: red;">Gagal memuat data sumber.</p>`;
+        });
+    </script>
+  </body>
+</html>

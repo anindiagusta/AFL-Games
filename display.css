@@ -1,0 +1,358 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap");
+
+/* General Styles */
+body {
+  margin: 0;
+  line-height: 1.6;
+  font-family: "Poppins", sans-serif;
+}
+
+p {
+  font-weight: 300;
+  font-size: small;
+}
+
+.news {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+  padding: 20px;
+}
+
+.news-item {
+  background-color: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s;
+}
+
+.news-item:hover {
+  transform: scale(1.03);
+}
+
+.news-link {
+  text-decoration: none;
+  color: black;
+  display: block;
+}
+
+.news-image {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+}
+
+.news-info {
+  padding: 10px;
+}
+
+.news-info h3 {
+  font-size: 18px;
+  margin: 5px 0;
+}
+
+.news-info p {
+  font-size: 14px;
+  color: #555;
+}
+
+.news-date {
+  display: block;
+  font-size: 12px;
+  color: gray;
+  margin-top: 5px;
+}
+
+.sources {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  padding: 20px;
+  justify-content: center;
+}
+
+.source-item {
+  background-color: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s, box-shadow 0.3s;
+  text-align: center;
+  padding: 15px;
+}
+
+.source-item:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+}
+
+.source-item a {
+  text-decoration: none;
+  color: #333;
+  font-weight: bold;
+  display: block;
+  margin-top: 10px;
+}
+
+.source-item a:hover {
+  color: #007bff;
+}
+
+.source-info img {
+  max-width: 150px;
+  height: auto;
+  border-radius: 5px;
+}
+
+.source-info {
+  padding: 10px;
+}
+
+.source-info h3 {
+  font-size: 18px;
+  margin: 10px 0;
+  color: #222;
+}
+
+.pagination {
+  margin-top: 20px;
+}
+
+.pagination button {
+  padding: 8px 15px;
+  font-size: 14px;
+  margin: 5px;
+  cursor: pointer;
+  border: none;
+  background-color: #d71921;
+  color: white;
+  border-radius: 4px;
+}
+
+.pagination button:disabled {
+  background-color: gray;
+  cursor: not-allowed;
+}
+
+/* Header Section */
+.hero {
+  background: url("https://www.aflq.com.au/wp-content/uploads/2017/12/NEAFL-FootyCrop-840x450.jpg") 
+              no-repeat center center/cover;height: 80vh;
+  color: white;
+  text-shadow: #0f172a;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 1000;
+  background-color: transparent;
+  transition: background-color 0.3s ease;
+  padding: 10px 20px;
+}
+
+.navbar.scrolled {
+  background-color: #0f172a;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.navbar.active {
+  background-color: black !important;
+  box-shadow: 0 4px 6px rgba(255, 255, 255, 0.3); /* Shadow putih */
+}
+
+.menu {
+  display: flex;
+  list-style: none;
+  padding: 0;
+}
+
+.menu li {
+  margin: 0 10px;
+}
+
+.menu li a {
+  text-decoration: none;
+  color: white;
+  font-weight: 400;
+  font-size: 14px;
+}
+
+.menu-toggle {
+  display: none;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: white;
+  cursor: pointer;
+}
+
+/* Hero Text */
+.hero-text h4 {
+  margin: 0;
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.hero-text h1 {
+  margin: 0;
+  font-size: 50px;
+  font-weight: 700;
+}
+
+/* Teams Section */
+.teams {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  padding: 40px 20px;
+}
+
+.team {
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  padding: 15px;
+  transition: transform 0.3s ease;
+}
+
+.team:hover {
+  transform: scale(1.05);
+}
+
+.team img {
+  width: 100px;
+  height: auto;
+  margin-bottom: 10px;
+}
+
+.team h3 {
+  margin: 10px 0 5px;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.team p {
+  margin: 0;
+  font-size: 14px;
+}
+
+/* Game Container */
+.games {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+  padding: 30px;
+  max-width: 1200px;
+  margin: auto;
+}
+
+.game-item {
+  background: white;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease-in-out;
+}
+
+.game-item:hover {
+  transform: scale(1.05);
+}
+
+.match-info h3 {
+  margin: 0;
+  font-size: 1.5rem;
+  color: #333;
+}
+
+.match-info p {
+  margin: 5px 0;
+  color: #555;
+  font-size: 0.9rem;
+}
+
+.team {
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  padding: 15px;
+  transition: transform 0.3s ease;
+}
+
+.team:hover {
+  transform: scale(1.05);
+}
+
+.team img {
+  width: 100px;
+  height: auto;
+  margin-bottom: 10px;
+}
+
+.team h3 {
+  margin: 10px 0 5px;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.team p {
+  margin: 0;
+  font-size: 14px;
+}
+
+
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .hero {
+    height: 60vh;
+    padding: 20px;
+  }
+
+  .hero-text h1 {
+    font-size: 40px;
+  }
+
+  .hero-text h4 {
+    font-size: 14px;
+  }
+
+  .menu {
+    display: none;
+    flex-direction: column;
+    background: rgba(0, 0, 0, 0.9);
+    position: absolute;
+    top: 60px;
+    right: 0;
+    width: 200px;
+    padding: 20px;
+    z-index: 1000;
+  }
+
+  .menu.active {
+    display: flex;
+  }
+
+  .menu-toggle {
+    display: block;
+  }
+
+  .teams {
+    grid-template-columns: 1fr;
+  }
+
+  .team img {
+    height: 80px;
+  }
+}
